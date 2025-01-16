@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>日当計算</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            border: 1px solid;
+        }
+
+        th, td {
+            border: 1px solid;
+            padding: 1em;
+        }
+        th {
+            background: #eee;
+        }
+    </style>
+</head>
+<body>
+<h1>日当計算</h1>
+<table style="border-collapse: collapse;border: 1px solid;">
+    <tr>
+        <th>氏名</th>
+        <td th:text="${name}"></td>
+    </tr>
+    <tr>
+        <th>出張時間</th>
+        <td th:text="${travel_hours}"></td>
+    </tr>
+    <tr>
+        <th>日当</th>
+        <td th:text="${daily_allowance}"></td>
+    </tr>
+</table>
+<a href="/business_trip_input">戻る</a>
+</body>
+</html>

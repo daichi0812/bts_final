@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Business Trip Input</title>
+</head>
+<body>
+<h1>出張日当計算</h1>
+<form action="/business_trip_output" method="post">
+    <div>
+        <label for="name">氏名</label>
+        <input type="text" id="name" name="name"/>
+    </div>
+    <div>
+        <label for="travel_hours">出張時間</label>
+        <input type="text" id="travel_hours" name="travel_hours"/>
+    </div>
+    <button type="submit">日当計算</button>
+</form>
+</body>
+</html>
