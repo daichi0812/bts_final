@@ -10,16 +10,22 @@ public class DailyAllowanceModel {
 
     // 出張者情報
     private String institutionTravel; // 所属機関名・部局
+    private String travelJobTitle;
     private String travelName;        // 出張者氏名
     private String purpose;           // 出張目的
     private String location;          // 用務地
     private String destination;       // 用務先
+    private String schedule;
 
-    // 今回は scheduleStart, scheduleEnd は送らず、差分を tripHours に反映
-    private int tripHours;            // 出張時間(はじめの日・終わりの日の差)
+    // 画面で計算した出張時間(時間数)
+    private int tripHours;
 
     // 日当
     private int dailyAllowance;
+
+    // ★追加: 泊数(nights) と 宿泊費(lodgingCost)
+    private int nights;
+    private int lodgingCost;
 
     public DailyAllowanceModel() {
         this.affiliation = "";
@@ -33,12 +39,13 @@ public class DailyAllowanceModel {
         this.purpose = "";
         this.location = "";
         this.destination = "";
+        this.schedule = "";
 
         this.tripHours = 0;
         this.dailyAllowance = 0;
     }
 
-    // ・・・以下、getter/setter・・・
+    // --- Getter / Setter ---
     public String getAffiliation() { return affiliation; }
     public void setAffiliation(String affiliation) { this.affiliation = affiliation; }
 
@@ -57,6 +64,9 @@ public class DailyAllowanceModel {
     public String getInstitutionTravel() { return institutionTravel; }
     public void setInstitutionTravel(String institutionTravel) { this.institutionTravel = institutionTravel; }
 
+    public String getTravelJobTitle() { return travelJobTitle; }
+    public void setTravelJobTitle(String travelJobTitle) { this.travelJobTitle = travelJobTitle; }
+
     public String getTravelName() { return travelName; }
     public void setTravelName(String travelName) { this.travelName = travelName; }
 
@@ -69,9 +79,19 @@ public class DailyAllowanceModel {
     public String getDestination() { return destination; }
     public void setDestination(String destination) { this.destination = destination; }
 
+    public String getSchedule() { return schedule; }
+    public void setSchedule(String schedule) { this.schedule = schedule; }
+
     public int getTripHours() { return tripHours; }
     public void setTripHours(int tripHours) { this.tripHours = tripHours; }
 
     public int getDailyAllowance() { return dailyAllowance; }
     public void setDailyAllowance(int dailyAllowance) { this.dailyAllowance = dailyAllowance; }
+
+    public int getNights() { return nights; }
+    public void setNights(int nights) { this.nights = nights; }
+
+    public int getLodgingCost() { return lodgingCost; }
+    public void setLodgingCost(int lodgingCost) { this.lodgingCost = lodgingCost; }
+
 }

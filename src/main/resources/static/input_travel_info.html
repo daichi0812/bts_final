@@ -49,6 +49,10 @@
         <input type="text" id="institution_travel" name="institution_travel" required>
     </div>
     <div>
+        <label for="travel_job_title">職名：</label>
+        <input type="text" id="travel_job_title" name="travel_job_title" required>
+    </div>
+    <div>
         <label for="travel_name">氏名：</label>
         <input type="text" id="travel_name" name="travel_name" required>
     </div>
@@ -64,15 +68,19 @@
         <label for="destination">用務先：</label>
         <input type="text" id="destination" name="destination" required>
     </div>
+
+    <!-- 日程入力 -->
     <div>
         <label for="schedule-start">はじめの日：</label>
         <input type="datetime-local" id="schedule-start" name="schedule-start" required>
         <label for="schedule-end">終わりの日：</label>
         <input type="datetime-local" id="schedule-end" name="schedule-end" required>
     </div>
+
+    <!-- 日帰りの場合の出張時間も手動入力可能(オプション) -->
     <div>
         <label for="trip_hours">出張時間（日帰りの場合）：</label>
-        <input type="number" id="trip_hours" name="trip_hours" min="0" step="1">
+        <input type="number" id="trip_hours" name="trip_hours" min="0" step="1" value="0">
     </div>
 </div>
 
@@ -83,7 +91,7 @@
     氏名：<span id="result_name"></span><br />
     所属：<span id="result_affiliation"></span><br />
     出張時間：<span id="result_travel_hours"></span>時間<br />
-    日当：<span id="result_daily_allowance"></span>円
+    日当：<span id="result_daily_allowance"></span>円<br />
     出力ファイル： <a href="./output.xlsx">output.xlsx</a>
 </div>
 </body>

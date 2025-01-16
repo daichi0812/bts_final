@@ -1,5 +1,6 @@
 package jp.ac.aoyama.it.it_lab_3.bts_final;
 
+import jp.ac.aoyama.it.it_lab_3.business_trip_dsl_sample.BusinessTripModel;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -11,6 +12,36 @@ import java.io.*;
 
 @RestController
 public class WriteToExelController {
+
+    private BusinessTripService businessTripService;
+
+    // クラス名と同じ名前のコンストラクタ
+    public WriteToExelController(BusinessTripService businessTripService) {
+        this.businessTripService = businessTripService;
+    }
+
+    @PostMapping("/calc_daily_allowance")
+    public DailyAllowanceModel calcDailyAllowance(@RequestBody DailyAllowanceModel model) {
+        // (1) DailyAllowanceModel → BusinessTripModel に変換
+        BusinessTripModel btm = new BusinessTripModel();
+        btm.setName(model.getName());
+        btm.setTravelHours(model.getTripHours());
+        btm.setAffiliation(model.getAffiliation());
+        // 他の項目があればセット
+
+        // (2) Droolsによる日当計算を実行
+        BusinessTripModel droolsResult = businessTripService.calcDailyAllowance(btm);
+
+        // (3) 計算結果を DailyAllowanceModel に反映
+        model.setDailyAllowance(droolsResult.getDailyAllowance());
+        int lodgingCost = model.getDailyAllowance() * model.getNights();
+        model.setLodgingCost(lodgingCost);
+
+        // (4) Excel作成
+        createExcelFile(model);
+
+        return model;  // フロントエンドに返却
+    }
 
     private void setBorderCellStyle(CellStyle style) {
         style.setBorderBottom(BorderStyle.THIN);
@@ -119,10 +150,12 @@ public class WriteToExelController {
                 "職名",
                 "氏名",
                 "所属機関名・部局",
+                "職名",
                 "氏名",
                 "出張目的",
                 "用務地",
                 "用務先",
+                "日程",
                 "出張時間（時間）",
                 "日当",
                 "宿泊費",
@@ -137,13 +170,15 @@ public class WriteToExelController {
                 model.getJobTitle(),
                 model.getName(),
                 model.getInstitutionTravel(),
+                model.getTravelJobTitle(),
                 model.getTravelName(),
                 model.getPurpose(),
                 model.getLocation(),
                 model.getDestination(),
+                model.getSchedule(),
                 String.valueOf(model.getTripHours()),       // 計算された出張時間
                 String.valueOf(model.getDailyAllowance()),  // サーバ側計算後の日当
-                "",  // 宿泊費（未入力の例）
+                String.valueOf(model.getLodgingCost()),
                 ""   // 運賃（未入力の例）
         };
 
@@ -189,28 +224,33 @@ public class WriteToExelController {
         style.setRightBorderColor(color);
     }
 
-    @PostMapping("/calc_daily_allowance")
-    public DailyAllowanceModel calcDailyAllowance(@RequestBody DailyAllowanceModel model) {
-        System.out.println("名前: " + model.getName());
-        System.out.println("出張時間: " + model.getTripHours());
-
-        // 出張時間による日当計算
-        int travelHours = model.getTripHours();
-        if (travelHours < 4) {
-            model.setDailyAllowance(0);
-        } else if (travelHours < 8) {
-            model.setDailyAllowance(1000);
-        } else if (travelHours < 12) {
-            model.setDailyAllowance(2000);
-        } else {
-            model.setDailyAllowance(3000);
-        }
-        System.out.println("日当: " + model.getDailyAllowance());
-
-        // Excelファイル作成
-        createExcelFile(model);
-
-        // 結果を返す
-        return model;
-    }
+//    @PostMapping("/calc_daily_allowance")
+//    public DailyAllowanceModel calcDailyAllowance(@RequestBody DailyAllowanceModel model) {
+//        System.out.println("名前: " + model.getName());
+//        System.out.println("出張時間: " + model.getTripHours());
+//
+//        // 出張時間による日当計算
+//        int travelHours = model.getTripHours();
+//        if (travelHours < 4) {
+//            model.setDailyAllowance(0);
+//        } else if (travelHours < 8) {
+//            model.setDailyAllowance(1000);
+//        } else if (travelHours < 12) {
+//            model.setDailyAllowance(2000);
+//        } else {
+//            model.setDailyAllowance(3000);
+//        }
+//        System.out.println("日当: " + model.getDailyAllowance());
+//
+//        // ★ 宿泊費 = 日当 × 泊数
+//        int lodgingCost = model.getDailyAllowance() * model.getNights();
+//        model.setLodgingCost(lodgingCost);
+//        System.out.println("宿泊費: " + model.getLodgingCost());
+//
+//        // Excelファイル作成
+//        createExcelFile(model);
+//
+//        // 結果を返す
+//        return model;
+//    }
 }
