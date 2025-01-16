@@ -1,0 +1,40 @@
+<!-- グループ20　最終課題 -->
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <script src="./js/bts.js"></script>
+    <title>出張業務支援システム</title>
+</head>
+<body>
+<h1>出張依頼申請書の作成</h1>
+
+<div>
+    <label for="name">氏名：</label>
+    <input type="text" id="name" name="name">
+</div>
+<div>
+    <label for="affiliation">所属：</label>
+    <input type="text" id="affiliation" name="affiliation">
+</div>
+<div>
+    <div>出発日時：</div>
+    <input type="datetime-local" id="departure_time" name="departure_time">
+</div>
+<div>
+    <div>到着日時：</div>
+    <input type="datetime-local" id="arrival_time" name="arrival_time">
+</div>
+
+<button id="calc_button" type="button">日当計算</button>
+
+<hr>
+<div>
+    氏名：<span id="result_name"></span><br />
+    所属：<span id="result_affiliation"></span><br />
+    出張時間：<span id="result_travel_hours"></span>時間<br />
+    日当：<span id="result_daily_allowance"></span>円
+</div>
+</body>
+</html>

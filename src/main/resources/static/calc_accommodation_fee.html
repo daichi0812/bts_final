@@ -1,0 +1,61 @@
+<!-- 情報テクノロジー学科 15822108 堀田大智 -->
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <script src="./js/AccommodationFeeModel.js"></script>
+    <script src="./js/calc_accommodation_fee.js"></script>
+    <title>宿泊料計算</title>
+</head>
+<body>
+<h1>宿泊料計算</h1>
+<form>
+    <div>
+        <label for="name">氏名：</label>
+        <input type="text" id="name" name="name">
+    </div>
+    <div>
+        <label for="affiliation">所属：</label>
+        <input type="text" id="affiliation" name="affiliation">
+    </div>
+    <div>
+        <label for="job_title">職位：</label>
+        <select id="job_title" name="job_title">
+            <option value="教授">教授</option>
+            <option value="准教授">准教授</option>
+        </select>
+    </div>
+    <div>
+        <label for="travel_category">出張分類：</label>
+        <select id="travel_category" name="travel_category">
+            <option value="国内">国内</option>
+            <option value="国外">国外</option>
+        </select>
+    </div>
+    <div>
+        <label for="number_of_nights">宿泊日数：</label>
+        <input type="number" id="number_of_nights" name="number_of_nights" value="1">
+    </div>
+    <div>
+        <label for="city_type">都市の種類：</label>
+        <select id="city_type" name="city_type">
+            <option value="指定都市">指定都市</option>
+            <option value="指定都市以外">指定都市以外</option>
+        </select>
+    </div>
+    <br>
+    <button id="calc_accommodation_fee_button" type="button">宿泊料計算</button>
+</form>
+<br>
+<div>
+    氏名：<span id="display_name"></span><br>
+    所属：<span id="display_affiliation"></span><br>
+    職位：<span id="display_job_title"></span><br>
+    出張分類：<span id="display_travel_category"></span><br>
+    宿泊日数：<span id="display_number_of_nights"></span><br>
+    都市の種類：<span id="display_city_type"></span><br>
+    宿泊料：<span id="display_accommodation_fee"></span>円
+</div>
+</body>
+</html>
