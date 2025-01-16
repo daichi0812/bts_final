@@ -4,27 +4,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <script src="./js/bts.js"></script>
     <title>出張業務支援システム</title>
 </head>
 <body>
 <h1>出張依頼申請書の作成</h1>
 
 <div>
-    <label for="name">氏名：</label>
-    <input type="text" id="name" name="name">
+    <h2>申請者</h2>
+    <div>
+        <label for="affiliation">所属：</label>
+        <input type="text" id="affiliation" name="affiliation" required>
+    </div>
+    <div>
+        <label for="faculty">学部：</label>
+        <input type="text" id="faculty" name="faculty" required>
+    </div>
+    <div>
+        <label for="department">学科：</label>
+        <input type="text" id="department" name="department" required>
+    </div>
+    <div>
+        <label for="job_title">職名：</label>
+        <select id="job_title" name="job_title" required>
+            <option value="">選択してください</option>
+            <option value="教授">教授</option>
+            <option value="准教授">准教授</option>
+            <option value="講師">講師</option>
+            <option value="研究員">研究員</option>
+            <option value="その他">その他</option>
+        </select>
+    </div>
+    <div>
+        <label for="name">氏名：</label>
+        <input type="text" id="name" name="name" required>
+    </div>
 </div>
+
 <div>
-    <label for="affiliation">所属：</label>
-    <input type="text" id="affiliation" name="affiliation">
-</div>
-<div>
-    <div>出発日時：</div>
-    <input type="datetime-local" id="departure_time" name="departure_time">
-</div>
-<div>
-    <div>到着日時：</div>
-    <input type="datetime-local" id="arrival_time" name="arrival_time">
+    <h2>出張者</h2>
+    <div>
+        <label for="institution_travel">所属機関名・部局：</label>
+        <input type="text" id="institution_travel" name="institution_travel" required>
+    </div>
+    <div>
+        <label for="travel_name">氏名：</label>
+        <input type="text" id="travel_name" name="travel_name" required>
+    </div>
+    <div>
+        <label for="purpose">出張目的：</label><br />
+        <textarea id="purpose" name="purpose" rows="5" cols="40" required></textarea>
+    </div>
+    <div>
+        <label for="location">用務地：</label>
+        <input type="text" id="location" name="location" required>
+    </div>
+    <div>
+        <label for="destination">用務先：</label>
+        <input type="text" id="destination" name="destination" required>
+    </div>
+    <div>
+        <label for="schedule">日程：</label>
+        <input type="datetime-local" id="schedule" name="schedule" required>
+    </div>
+    <div>
+        <label for="trip_hours">出張時間（日帰りの場合）：</label>
+        <input type="number" id="trip_hours" name="trip_hours" min="0" step="1">
+    </div>
 </div>
 
 <button id="calc_button" type="button">日当計算</button>

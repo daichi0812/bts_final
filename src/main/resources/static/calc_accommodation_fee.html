@@ -1,61 +1,186 @@
-<!-- 情報テクノロジー学科 15822108 堀田大智 -->
+<!-- グループ20　最終課題 -->
 <!DOCTYPE HTML>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <script src="./js/AccommodationFeeModel.js"></script>
-    <script src="./js/calc_accommodation_fee.js"></script>
-    <title>宿泊料計算</title>
+    <script src="./js/bts.js"></script>
+    <title>出張業務支援システム</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // 学部と学科のオプション
+            const departmentOptions = {
+                "文学部": ["英米文学科", "フランス文学科", "日本文学科", "史学科", "比較芸術学科"],
+                "教育人間科学部": ["教育学科", "心理学科"],
+                "経済学部": ["経済学科", "現代経済デザイン学科"],
+                "法学部": ["法学科", "ヒューマンライツ学科（2022年4月開設）"],
+                "経営学部": ["経営学科", "マーケティング学科"],
+                "国際政治経済学部": ["国際政治学科", "国際経済学科", "国際コミュニケーション学科"],
+                "総合文化政策学部": ["総合文化政策学科"],
+                "理工学部": ["物理科学科", "数理サイエンス学科", "化学・生命科学科", "電気電子工学科", "機械創造工学科", "経営システム工学科", "情報テクノロジー学科"],
+                "社会情報学部": ["社会情報学科"],
+                "地球社会共生学部": ["地球社会共生学科"],
+                "コミュニティ人間科学部": ["コミュニティ人間科学科"],
+                "相模原キャンパス": [] // 学科がない場合
+            };
+
+            const facultySelect = document.getElementById("faculty");
+            const departmentSelect = document.getElementById("department");
+
+            facultySelect.addEventListener("change", function() {
+                const selectedFaculty = this.value;
+                const departments = departmentOptions[selectedFaculty] || [];
+
+                // 学科セレクトボックスをクリア
+                departmentSelect.innerHTML = "";
+
+                if (departments.length > 0) {
+                    departments.forEach(function(dept) {
+                        const option = document.createElement("option");
+                        option.value = dept;
+                        option.textContent = dept;
+                        departmentSelect.appendChild(option);
+                    });
+                    departmentSelect.disabled = false;
+                } else {
+                    // 学科がない場合は選択不可に
+                    const option = document.createElement("option");
+                    option.value = "";
+                    option.textContent = "なし";
+                    departmentSelect.appendChild(option);
+                    departmentSelect.disabled = true;
+                }
+            });
+
+            // 初期状態の設定
+            facultySelect.dispatchEvent(new Event("change"));
+
+            // 所属機関名・部局のオプション
+            const institutionDepartments = {
+                "機関A": ["部局A1", "部局A2", "部局A3"],
+                "機関B": ["部局B1", "部局B2"],
+                "機関C": ["部局C1", "部局C2", "部局C3", "部局C4"],
+                "機関D": ["なし"] // 部局がない場合
+            };
+
+            const institutionTravelSelect = document.getElementById("institution_travel");
+
+            // 動的に所属機関名・部局を生成
+            for (const [institution, departments] of Object.entries(institutionDepartments)) {
+                const optgroup = document.createElement("optgroup");
+                optgroup.label = institution;
+
+                departments.forEach(dept => {
+                    const option = document.createElement("option");
+                    if (dept === "なし") {
+                        option.value = `${institution} - ${dept}`;
+                        option.textContent = `${institution} - なし`;
+                    } else {
+                        option.value = `${institution} - ${dept}`;
+                        option.textContent = `${institution} - ${dept}`;
+                    }
+                    optgroup.appendChild(option);
+                });
+
+                institutionTravelSelect.appendChild(optgroup);
+            }
+        });
+    </script>
 </head>
 <body>
-<h1>宿泊料計算</h1>
-<form>
-    <div>
-        <label for="name">氏名：</label>
-        <input type="text" id="name" name="name">
-    </div>
+<h1>出張依頼申請書の作成</h1>
+
+<div>
+    <h2>申請者</h2>
     <div>
         <label for="affiliation">所属：</label>
         <input type="text" id="affiliation" name="affiliation">
     </div>
     <div>
-        <label for="job_title">職位：</label>
+        <label for="faculty">学部：</label>
+        <select id="faculty" name="faculty">
+            <option value="">選択してください</option>
+            <option value="文学部">文学部</option>
+            <option value="教育人間科学部">教育人間科学部</option>
+            <option value="経済学部">経済学部</option>
+            <option value="法学部">法学部</option>
+            <option value="経営学部">経営学部</option>
+            <option value="国際政治経済学部">国際政治経済学部</option>
+            <option value="総合文化政策学部">総合文化政策学部</option>
+            <option value="理工学部">理工学部</option>
+            <option value="社会情報学部">社会情報学部</option>
+            <option value="地球社会共生学部">地球社会共生学部</option>
+            <option value="コミュニティ人間科学部">コミュニティ人間科学部</option>
+            <option value="相模原キャンパス">相模原キャンパス</option>
+        </select>
+    </div>
+    <div>
+        <label for="department">学科：</label>
+        <select id="department" name="department" disabled>
+            <option value="">選択してください</option>
+            <!-- JavaScriptで動的に追加 -->
+        </select>
+    </div>
+    <div>
+        <label for="job_title">職名：</label>
         <select id="job_title" name="job_title">
+            <option value="">選択してください</option>
             <option value="教授">教授</option>
             <option value="准教授">准教授</option>
+            <option value="講師">講師</option>
+            <option value="研究員">研究員</option>
+            <option value="その他">その他</option>
         </select>
     </div>
     <div>
-        <label for="travel_category">出張分類：</label>
-        <select id="travel_category" name="travel_category">
-            <option value="国内">国内</option>
-            <option value="国外">国外</option>
-        </select>
+        <label for="name">氏名：</label>
+        <input type="text" id="name" name="name" required>
     </div>
-    <div>
-        <label for="number_of_nights">宿泊日数：</label>
-        <input type="number" id="number_of_nights" name="number_of_nights" value="1">
-    </div>
-    <div>
-        <label for="city_type">都市の種類：</label>
-        <select id="city_type" name="city_type">
-            <option value="指定都市">指定都市</option>
-            <option value="指定都市以外">指定都市以外</option>
-        </select>
-    </div>
-    <br>
-    <button id="calc_accommodation_fee_button" type="button">宿泊料計算</button>
-</form>
-<br>
+</div>
+
 <div>
-    氏名：<span id="display_name"></span><br>
-    所属：<span id="display_affiliation"></span><br>
-    職位：<span id="display_job_title"></span><br>
-    出張分類：<span id="display_travel_category"></span><br>
-    宿泊日数：<span id="display_number_of_nights"></span><br>
-    都市の種類：<span id="display_city_type"></span><br>
-    宿泊料：<span id="display_accommodation_fee"></span>円
+    <h2>出張者</h2>
+    <div>
+        <label for="institution_travel">所属機関名・部局：</label>
+        <select id="institution_travel" name="institution_travel" required>
+            <option value="">選択してください</option>
+            <!-- JavaScriptで動的に追加 -->
+        </select>
+    </div>
+    <div>
+        <label for="travel_name">氏名：</label>
+        <input type="text" id="travel_name" name="travel_name" required>
+    </div>
+    <div>
+        <label for="purpose">出張目的：</label><br />
+        <textarea id="purpose" name="purpose" rows="5" cols="40" required></textarea>
+    </div>
+    <div>
+        <label for="location">用務地：</label>
+        <input type="text" id="location" name="location" required>
+    </div>
+    <div>
+        <label for="destination">用務先：</label>
+        <input type="text" id="destination" name="destination" required>
+    </div>
+    <div>
+        <label for="schedule">日程：</label>
+        <input type="datetime-local" id="schedule" name="schedule" required>
+    </div>
+    <div>
+        <label for="trip_hours">出張時間（日帰りの場合）：</label>
+        <input type="number" id="trip_hours" name="trip_hours" min="0" step="1">
+    </div>
+</div>
+
+<button id="calc_button" type="button">日当計算</button>
+
+<hr>
+<div>
+    氏名：<span id="result_name"></span><br />
+    所属：<span id="result_affiliation"></span><br />
+    出張時間：<span id="result_travel_hours"></span>時間<br />
+    日当：<span id="result_daily_allowance"></span>円
 </div>
 </body>
 </html>
